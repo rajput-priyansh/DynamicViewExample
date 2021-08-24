@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
-import com.vibs.dynamicview.models.ResponseViews
 import com.vibs.dynamicview.models.TestJsonItem
 import android.widget.RelativeLayout
 
@@ -63,14 +62,13 @@ class MainActivity : AppCompatActivity() {
      */
     private fun bindDynamicView(data: TestJsonItem, parent: ViewGroup) {
 
-        val padding = data.padding?.toIntOrNull() ?: 0
-        val width = data.layoutWidth?.toIntOrNull() ?: ViewGroup.LayoutParams.WRAP_CONTENT
-        val marginTop = data.layoutMarginTop?.toIntOrNull() ?: 0
+        val padding = this.dpToPx(data.padding?.replace("dp", "")?.toIntOrNull() ?: 0)
+        val width = if (data.layoutWidth != null) this.dpToPx(data.layoutWidth.replace("dp", "").toIntOrNull() ?: 0) else ViewGroup.LayoutParams.WRAP_CONTENT
+        val marginTop = this.dpToPx(data.layoutMarginTop?.replace("dp", "")?.toIntOrNull() ?: 0)
         val progress = data.progress?.toIntOrNull() ?: 0
         val max = data.max ?: 0
         val text = data.text ?: ""
         val gravity = if (data.gravity == "center") Gravity.CENTER else if (data.gravity == "left") Gravity.LEFT else if (data.gravity == "right") Gravity.RIGHT else Gravity.NO_GRAVITY
-
 
         val params = LinearLayout.LayoutParams(
             width,ViewGroup.LayoutParams.WRAP_CONTENT
